@@ -1,0 +1,107 @@
+En main declaramos philosophers thread y sus ids
+a continuacion vemos si se puede leer los parametros y de paso los voy guardando en 
+el struct g_info y gestionando los errores del ARGV
+
+a continuacion comprobamos que todo este iniciado correctamente llamando a varias funciones
+
+
+INCIALIZACION
+
+Primero inicializamos las variables 
+
+hacemos un int de i
+y hacemos que la variable global g_end = falso
+A continuacion reservamos memoria ara threads, g_forks, ids
+g_time_last_meal y g_meals
+a continuacion comprobamos que todas las memorias hayan sido alocadas correctamente
+a continuacion iniciamos a 0 g_meals con un memset y comprobamos el 
+address de g_print_mutex, si no existe returnemos false
+
+Identamos por todos los filosofos y en g_time_last_meal guardamos en milisegundos
+la hora actual y de paso inciamos los mutexes en cada uno de los forks a NULL
+y si if (pthread_mutex_init(&g_forks[i++], NULL)) returneamos falso
+
+ahora guardamos en starting time la hora actual 
+y al final del programa returneamos true
+
+
+CREACION FILOSOFAL
+hacemos un int de i e identamos mientras que i < que el numero de filosofos necesarios
+y en cada id creamos un thread con pthread_create, returneamos false si la funcion devuelve un error
+al final de la funcion returneamos true
+
+
+DESPUES DE TENERLO YA TODO INCIALIZADO
+
+empezaremos a tomar control sobre la vida de los filosofos
+inicializamos las variables current_time y un identado ri
+
+a continuacion creamos un bucle infinito para managear las vidas de los filosofos
+en current_time guardamos el tiempo actal en milisegundos
+y reiniciamos i a 0
+a continuacion mientras que la i sea menor que el numero de filosofos
+comprobamos que el tiempo actual - el tiempo de la ultima vez que el filosofo en cuestion
+haya comido sea mayor que el tiempo necesario para morir si es asi significia
+que el filosofo ha muerto y habra que cerrar el programa
+ponemos la variable global g_end a true y hacemos un printf de " el filosof x ha muerto"
+y su hora de deceso
+por otro lado si el filosofo sigue vivo pero hay algun problema  paramos el programa de la mismo forma
+
+
+
+
+
+
+
+
+PHILOSOPHERS ROUTINE AL INICIALIZAR LOS threads
+
+incializamos una variable constante id al que le daremos el valor del parametros
+y a continucaion un mutex lllamado pliho_forks con pthread_mutex_t		*philo_forks[2];
+
+id va a ser la direccion de memoria de (0,1,2,3,4,5....);
+
+
+guardamos en g_time_last_meal[id] el tiempo actual
+y si el el numero de filosofos es 1, imprimoms que haya tomado un forkm, lo matamos
+y returneamos NULL
+
+a continuacion ASIGNAMOS LOS FORKS 
+
+en caso de que sea el primer filosofo de la cadena circular hacemos que cojan las forks correspondientes
+manageamos lo mismo para el ultimo filosofo de la cadena
+y para cualquier otro filosofo hacemos que coja el fork de su izuqierda y el de su derecha
+
+AQUI EMPIEZA EL VERADDERO BUCLE DE LOS FILOSOFS 
+los filosofos comeran
+dormiran 
+e imprimiran sus estados actuales
+
+COMER
+
+Haremos un mutex lock de el fork[0]
+imprimimos que ha tomado dicho tenedor
+haremos un mutex del otro fork fork[1]
+e imprimimos que lo ha tomado
+eso signficia que ya ha comido, asi que Guardamos su ultimo tiempo de comida con el tiempo actual
+imprimimos que esta comiendo y lo mandamos a comer con
+SAFE_SLEEP
+ahora aumentamos g_meals[id]++
+
+DUERMEN
+
+Imprimimos que esta durmiendo
+y hacemos un mutex_unlock de ls 2 forks
+a continucaion lo mandamos a dormir con
+SAFE_SLEEP
+
+en start guardamos el tiempo actual
+y en end guardamos el tiempo que queremos dormir + start
+creamos la variable no oconstante current  y la igualamos a start
+
+mientras que !gend y tiempo actual < que el tiempo de finalisacion
+
+si el tiempo final - el actual >100
+	hacemos un usleep(100000)
+sino hacemos un usleep(end-current) * 1000)
+y hacemos que current = tiempo actual
