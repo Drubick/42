@@ -1,0 +1,41 @@
+managment de errores de fichero
+si todo esta bien incializar la estructura que vamos a utliziar
+si no enviar un mensaje de error y cerrar el programa
+
+PARSEO DEL fichero
+primero verificar que las texturas y los puntos cardinales que se dan antes del mapa sean validos y no repetidos, a continuacion guardarlos en la parte
+correspondiente de la estructura
+en caso de error enviar un mensaje de error
+
+PARSEO DEL MAPA algoritmo
+
+   // Necistaremos una variable que se vuelva 1 o 0 para poder gestionar los espacios entre las paredes del mapa
+    //de tal forma que sera 0 hasta que encuentre una pared (1) en la fila y se volvera otra vez a 0 cuando en la fila se encontrara otra pared (1), no sin antes haberse encontrado antes con un 0
+    //(posiblemente tener una variable aparte que lo gestione o simplemente chequear el caracter anterior) 
+    //en caso de que esta variable se quede en 0 cuando llegue al final de la linea se enviara un codigo de error (y dependiendo de si guardamos o no ya las cosas se liberara memoria);
+
+    En caso de que sea la primera o ultima fila habra una regla especial de que todo solo sean 1 y espacios
+
+    ALGORITMO
+        siempre que enuentre un algo que no sea una pared, comprobare con que hace frontera
+        en caso de ser un 0 o personaje solo podra hacer frontera arriba y a la izquierda con un 0 sprite o 1;
+        en caso de ser un espacio solo podra hacer frontera hacia arriba con un 1
+
+        habra una variable que gestione que se esta empezando y acabando en 1
+                             
+                      111 111         
+                      101 121         
+        111111111111111011101111111111
+        10000000001100E000000000022221
+        101100000111000001200000000021
+        10010000000000000 000000022221
+11111111101100000111000001000020111111
+100000000011000001110111111111111
+11110111111111011100000010001
+11110111111111011101010010001
+11000000110101011100000010001
+10002000000000001100000010001
+10000000000000001101010010001
+1100000111010101111101111000111
+11110111 1110101 101111010001
+11111111 1111111 111111111111c
